@@ -2,7 +2,7 @@
   "ver": "1.0.26",
   "importer": "image",
   "imported": true,
-  "uuid": "4530fa8e-982c-46f8-a3f9-85f8f880dbb9",
+  "uuid": "2dc3e4d1-119e-402f-a53c-de3abf2e6c40",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "4530fa8e-982c-46f8-a3f9-85f8f880dbb9@6c48a",
-      "displayName": "tile003",
+      "uuid": "2dc3e4d1-119e-402f-a53c-de3abf2e6c40@6c48a",
+      "displayName": "tile0033",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "4530fa8e-982c-46f8-a3f9-85f8f880dbb9",
+        "imageUuidOrDatabaseUri": "2dc3e4d1-119e-402f-a53c-de3abf2e6c40",
         "isUuid": true,
         "visible": false,
         "minfilter": "nearest",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "4530fa8e-982c-46f8-a3f9-85f8f880dbb9@f9941",
-      "displayName": "tile003",
+      "uuid": "2dc3e4d1-119e-402f-a53c-de3abf2e6c40@f9941",
+      "displayName": "tile0033",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -114,7 +114,7 @@
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "4530fa8e-982c-46f8-a3f9-85f8f880dbb9@6c48a",
+        "imageUuidOrDatabaseUri": "2dc3e4d1-119e-402f-a53c-de3abf2e6c40@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "hasAlpha": true,
     "fixAlphaTransparencyArtifacts": false,
-    "redirect": "4530fa8e-982c-46f8-a3f9-85f8f880dbb9@f9941"
+    "redirect": "2dc3e4d1-119e-402f-a53c-de3abf2e6c40@f9941"
   }
 }

@@ -1,16 +1,16 @@
-import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, Vec3,Animation, animation, Sprite} from 'cc';
-const { ccclass, property } = _decorator;
+import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, Vec3, animation} from 'cc';
+const { ccclass, property } = _decorator; 
 
 @ccclass('Unit')
 
 export class Unit extends Component {
-    private _rb: RigidBody2D;
-    private _animator: animation.AnimationController;
+private _rb: RigidBody2D;
+private _animator: animation.AnimationController;
 
 
-private currentWalkSpeed: number ;
+private currentWalkSpeed: number;
 @property({type: CCInteger})
-private defaultWalkSpeed: number ;
+private defaultWalkSpeed: number;
 @property({type: CCInteger})
 private dashSpeed: number ;
 @property({type: CCInteger})
@@ -19,8 +19,8 @@ private stamina: number ;
 
   start() {
         this._rb = this.node.getComponent(RigidBody2D);
-          this._animator = this.node.getComponent(animation.AnimationController)
-          this.currentWalkSpeed = this.defaultWalkSpeed;
+        this._animator = this.node.getComponent(animation.AnimationController);
+        this.currentWalkSpeed = this.defaultWalkSpeed;
     }
 
    public ControlUnit(direction, isDashing)

@@ -8,7 +8,7 @@ export class Controller extends Component {
    @property (Unit)
    Unit : Unit;
    
-   direction = { horizontal:0, vertical:0 };
+   direction: any = { horizontal:0, vertical:0 };
    isDashing: boolean;
 
     protected onLoad(): void {
@@ -27,7 +27,7 @@ export class Controller extends Component {
     
     onKeyDown(event: EventKeyboard)
     {
-       switch(event.keyCode)
+          switch(event.keyCode)
        {
         case KeyCode.KEY_W:
             this.direction.vertical = 1;
