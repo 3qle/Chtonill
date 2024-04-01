@@ -5,11 +5,11 @@ const { ccclass, property } = _decorator;
 @ccclass('Controller')
 export class Controller extends Component {
 
-
    @property (Unit)
    Unit : Unit;
-
-  dir = { hor:0, vert:0 };
+   
+   direction = { horizontal:0, vertical:0 };
+   isDashing: boolean;
 
     protected onLoad(): void {
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
@@ -20,44 +20,54 @@ export class Controller extends Component {
    
     }
 
-    update (deltaTime: number) {
-          this.Unit.walk(this.dir);
+    update () {
+          this.Unit.walk(this.direction);
+       //   this.Unit.dash(this.isDashing);
     }
 
+    
     onKeyDown(event: EventKeyboard)
     {
        switch(event.keyCode)
        {
         case KeyCode.KEY_W:
-            this.dir.vert = 1;
+            this.direction.vertical = 1;
             break;
            case KeyCode.KEY_S:
-            this.dir.vert = -1;
+            this.direction.vertical = -1;
             break;
           case KeyCode.KEY_A:
-            this.dir.hor = -1;
+            this.direction.horizontal = -1;
             break;
           case KeyCode.KEY_D:
-            this.dir.hor = 1;
+            this.direction.horizontal = 1;
             break;
+            case KeyCode.SPACE:
+            this.isDashing = true;
+            break;
+
        }
     }
 
-    onKeyUp (event: EventKeyboard){
+    onKeyUp (event: EventKeyboard)
+    {
         switch(event.keyCode)
         {
          case KeyCode.KEY_W:
-           this.dir.vert = 0;
+           this.direction.vertical = 0;
              break;
             case KeyCode.KEY_S:
-           this.dir.vert = 0;
+           this.direction.vertical = 0;
              break;
            case KeyCode.KEY_A:
-          this.dir.hor = 0;
+          this.direction.horizontal = 0;
              break;
            case KeyCode.KEY_D:
-          this.dir.hor = 0;
+          this.direction.horizontal = 0;
              break;
+             case KeyCode.SPACE:
+              this.isDashing = false;
+              break;
         }
 }
 
