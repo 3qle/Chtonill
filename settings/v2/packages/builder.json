@@ -1,3 +1,20 @@
 {
-  "__version__": "1.3.7"
+  "__version__": "1.3.7",
+  "splash-setting": {
+    "background": {
+      "image": "project://settings/logo.png",
+      "color": {
+        "x": 0.00392156862745098,
+        "y": 0.12549019607843137,
+        "z": 0.050980392156862744,
+        "w": 1
+      },
+      "type": "color"
+    },
+    "logo": {
+      "image": "project://settings/logo.png",
+      "type": "custom"
+    },
+    "displayRatio": 3.99
+  }
 }
