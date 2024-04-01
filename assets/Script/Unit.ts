@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, Animation, animation} from 'cc';
+import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, Vec3,Animation, animation, Sprite} from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Unit')
@@ -17,23 +17,22 @@ private dashSpeed: number ;
 private stamina: number ;
 
 
-
-
-
-    start() {
+  start() {
         this._rb = this.node.getComponent(RigidBody2D);
           this._animator = this.node.getComponent(animation.AnimationController)
           this.currentWalkSpeed = this.defaultWalkSpeed;
     }
 
-   
+   public ControlUnit(direction, isDashing)
+   {
+    this.walk(direction);
+    this.dash(isDashing);
+    this.animateUnit(direction);
+   }
 
    public walk(direction) {
         this._rb.applyForceToCenter( 
             new Vec2( direction.horizontal * this.currentWalkSpeed,  direction.vertical * this.currentWalkSpeed ), true );
-
-       
-            this._animator.setValue('isWalking',direction.vertical || direction.horizontal);
         }
 
     public dash(isDashing)
@@ -41,12 +40,22 @@ private stamina: number ;
         if(isDashing && this.stamina > 0)
         {
             this.currentWalkSpeed =  this.dashSpeed;
-        
         }
         else
         this.currentWalkSpeed = this.defaultWalkSpeed;
-      
-       
+            
+    }
+
+    private animateUnit(direction)
+    {
+        this._animator.setValue('isWalking',direction.vertical || direction.horizontal);
+        this.changeFaceDirection(direction);
+    }
+
+    private changeFaceDirection(direction)
+    { 
+        if(direction.horizontal !=0)
+          this.node.scale = new Vec3 (direction.horizontal,this.node.scale.y, this.node.scale.z);   
     }
 }
 

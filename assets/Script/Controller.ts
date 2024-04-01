@@ -21,8 +21,7 @@ export class Controller extends Component {
     }
 
     update () {
-          this.Unit.walk(this.direction);
-       //   this.Unit.dash(this.isDashing);
+        this.Unit.ControlUnit(this.direction,this.isDashing);
     }
 
     

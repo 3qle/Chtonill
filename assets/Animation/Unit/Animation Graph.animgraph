@@ -111,8 +111,8 @@
       "name": "",
       "id": "0a5eb68b-5d2c-47cf-88e4-bc3d20fca967",
       "clone": null,
-      "centerX": 116.53578556704463,
-      "centerY": -102.96321343479224
+      "centerX": 122.25007138097953,
+      "centerY": -92.24892753366422
     },
     "name": "Walking",
     "_components": [],
@@ -229,7 +229,7 @@
     "duration": 0.3,
     "relativeDuration": false,
     "exitConditionEnabled": true,
-    "_exitCondition": 1
+    "_exitCondition": 0
   },
   {
     "__type__": "cc.animation.UnaryCondition",
@@ -276,7 +276,7 @@
     "duration": 0.3,
     "relativeDuration": false,
     "exitConditionEnabled": true,
-    "_exitCondition": 1
+    "_exitCondition": 0
   },
   {
     "__type__": "cc.animation.UnaryCondition",
