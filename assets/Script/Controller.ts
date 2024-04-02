@@ -5,69 +5,71 @@ const { ccclass, property } = _decorator;
 @ccclass('Controller')
 export class Controller extends Component {
 
-   @property (Unit)
-   Unit : Unit;
-   
-   direction: any = { horizontal:0, vertical:0 };
-   isDashing: boolean;
+	@property (Unit)
+	Unit : Unit;
 
-    protected onLoad(): void {
-        input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
-        input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
-    }
+	direction: any = { horizontal:0, vertical:0 };
+	
+	buttons = {dash : false};
+	
+	protected onLoad(): void {
+		input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
+		input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
+	}
 
-    start () {
-   
-    }
+	start () {
 
-    update () {
-        this.Unit.ControlUnit(this.direction,this.isDashing);
-    }
+	}
 
-    
-    onKeyDown(event: EventKeyboard)
-    {
-          switch(event.keyCode)
-       {
-        case KeyCode.KEY_W:
-            this.direction.vertical = 1;
-            break;
-           case KeyCode.KEY_S:
-            this.direction.vertical = -1;
-            break;
-          case KeyCode.KEY_A:
-            this.direction.horizontal = -1;
-            break;
-          case KeyCode.KEY_D:
-            this.direction.horizontal = 1;
-            break;
-            case KeyCode.SPACE:
-            this.isDashing = true;
-            break;
+	update () {
+		this.Unit.ControlUnit(this.direction,this.buttons);
+	}
 
-       }
-    }
+	buttonPress(button)
+	{
+		this.buttons[button] = true;
+		this.scheduleOnce(()=> {this.buttons[button] = false},0.1);
+	}
+	
+	onKeyDown(event: EventKeyboard)
+	{
+		switch(event.keyCode)
+		{
+		case KeyCode.KEY_W:
+			this.direction.vertical = 1;
+			break;
+		case KeyCode.KEY_S:
+			this.direction.vertical = -1;
+			break;
+		case KeyCode.KEY_A:
+			this.direction.horizontal = -1;
+			break;
+		case KeyCode.KEY_D:
+			this.direction.horizontal = 1;
+			break;
+		case KeyCode.SPACE:
+			this.buttonPress('dash');
+			break;
+		}
+	}
 
-    onKeyUp (event: EventKeyboard)
-    {
-        switch(event.keyCode)
-        {
-         case KeyCode.KEY_W:
-           this.direction.vertical = 0;
-             break;
-            case KeyCode.KEY_S:
-           this.direction.vertical = 0;
-             break;
-           case KeyCode.KEY_A:
-          this.direction.horizontal = 0;
-             break;
-           case KeyCode.KEY_D:
-          this.direction.horizontal = 0;
-             break;
-             case KeyCode.SPACE:
-              this.isDashing = false;
-              break;
-        }
-}
+	onKeyUp (event: EventKeyboard)
+	{
+		switch(event.keyCode)
+		{
+			case KeyCode.KEY_W:
+				this.direction.vertical = 0;
+				break;
+			case KeyCode.KEY_S:
+				this.direction.vertical = 0;
+				break;
+			case KeyCode.KEY_A:
+				this.direction.horizontal = 0;
+				break;
+			case KeyCode.KEY_D:
+				this.direction.horizontal = 0;
+				break;      
+		}
+	}
 
 }
