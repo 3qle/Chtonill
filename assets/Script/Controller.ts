@@ -13,7 +13,7 @@ export class Controller extends Component {
 
 	protected onLoad(): void {
 	input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
-		input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
+	input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
 		
 	}
 

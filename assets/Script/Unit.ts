@@ -24,14 +24,13 @@ start() {
 
 public ControlUnit(direction, buttons)
 {
-this.walk(direction);
-this.dash(buttons.dash);
-this.animateUnit(direction);
+    this.walk(direction);
+    this.dash(buttons.dash);
+    this.animateUnit(direction);
 }
 
 public walk(direction) {
    
-    console.log(direction.left + direction.right);
     this._rb.applyForceToCenter( 
         new Vec2( (direction.left + direction.right) * this.currentWalkSpeed, 
          (direction.up + direction.down) * this.currentWalkSpeed ), true );
@@ -52,7 +51,7 @@ public dash(isDashing)
 private animateUnit(direction)
 {
     this._animator.setValue('isWalking',direction.left || direction.right || direction.up || direction.down);
- //   this.changeFaceDirection(direction);
+ // this.changeFaceDirection(direction);
 }
 
 private changeFaceDirection(direction)
