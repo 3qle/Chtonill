@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, Vec3, animation, KeyCode} from 'cc';
+import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, Vec3, animation, KeyCode, ParticleSystem2D} from 'cc';
 const { ccclass, property } = _decorator; 
 
 @ccclass('Unit')
@@ -7,6 +7,8 @@ export class Unit extends Component {
 private _rb: RigidBody2D;
 private _animator: animation.AnimationController;
 
+@property({type: ParticleSystem2D})
+private particle: ParticleSystem2D;
 
 private currentWalkSpeed: number;
 @property({type: CCInteger})
@@ -41,24 +43,39 @@ public dash(isDashing)
 {
   
     if(isDashing && this.stamina > 0)  
-     this.currentWalkSpeed =  this.dashSpeed;
+    {
+        this.currentWalkSpeed =  this.dashSpeed;
+        this.dashParticle();
+    }
+   
     
     else
-    this.currentWalkSpeed = this.defaultWalkSpeed;
+    {
+        this.currentWalkSpeed = this.defaultWalkSpeed;
+      
+    }
         
+}
+
+private dashParticle()
+{
+    this.particle.emissionRate = 15;
+    this.scheduleOnce( () => this.particle.emissionRate = 0,0.5);
 }
 
 private animateUnit(direction)
 {
     this._animator.setValue('isWalking',direction.left || direction.right || direction.up || direction.down);
- // this.changeFaceDirection(direction);
+ // this.changeFaceDirection(direction.left,direction.right);
+  
 }
 
-private changeFaceDirection(direction)
+private changeFaceDirection(left:number,right:number)
 { 
-    if(direction.left !=0 || direction.right !=0)
-        this.node.scale = new Vec3 (direction.left + direction.right,this.node.scale.y, this.node.scale.z);   
+    if(left !=0 )
+        this.node.scale = new Vec3 (left,this.node.scale.y, this.node.scale.z);
+    else   
+    this.node.scale = new Vec3 (right,this.node.scale.y, this.node.scale.z);
 }
 }
-
 
