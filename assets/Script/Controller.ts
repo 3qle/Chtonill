@@ -1,5 +1,5 @@
 import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode, Prefab, Script } from 'cc';
-import { Unit } from './Unit';
+import { Unit } from './Unit/Unit';
 const { ccclass, property } = _decorator;
 
 @ccclass('Controller')
