@@ -6,6 +6,11 @@ export class Stamina extends Component {
 
     @property(CCInteger)
     amount : number;
+
+    public hasStamina(): boolean
+    {
+         return this.amount > 0;
+    }
 }
 
 

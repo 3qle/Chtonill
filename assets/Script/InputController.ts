@@ -2,11 +2,10 @@ import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, Ke
 import { Unit } from './Unit/Unit';
 const { ccclass, property } = _decorator;
 
-@ccclass('Controller')
-export class Controller extends Component {
+@ccclass('InputController')
+export class InputController extends Component {
 
-	@property (Unit)
-	Unit : Unit;
+	private Unit : Unit;
 
 	direction: any =  {up: 0, left:0, right:0, down:0};
 	buttons = {dash : false};
@@ -14,15 +13,15 @@ export class Controller extends Component {
 	protected onLoad(): void {
 	input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
 	input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
-		
 	}
 
-	start () {
-
+	setUnit(unit: Unit)
+	{
+ 		this.Unit = unit;	
 	}
 
-	update () {
-		this.Unit.ControlUnit(this.direction,this.buttons);
+	updateController() {
+		this.Unit.ControlOnUpdate(this.direction,this.buttons);
 	}
 
 	buttonPress(button)
@@ -51,6 +50,7 @@ export class Controller extends Component {
 			this.buttonPress('dash');
 			break;
 		}
+		this.Unit.ControlOnKeyPressing(this.direction);
 	}
 
 	
@@ -72,6 +72,7 @@ export class Controller extends Component {
 				this.direction.right = 0;
 				break;      
 		}
+		this.Unit.ControlOnKeyPressing(this.direction);
 	}
 
 }

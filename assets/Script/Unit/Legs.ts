@@ -1,6 +1,4 @@
-import { _decorator, CCInteger, Component, Node, ParticleSystem2D, RigidBody2D, Vec2 } from 'cc';
-import { DashParticle } from './DashParticle';
-import { Stamina } from './Stamina';
+import { _decorator, CCInteger, Component, RigidBody2D, Vec2 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Legs')
@@ -14,23 +12,14 @@ export class Legs extends Component{
     @property({type: CCInteger})
 
     _rb : RigidBody2D;
-    _particle : DashParticle;
-   
-
-    public Init()
+  
+     start()
     {
         this._rb = this.getComponent(RigidBody2D);
-        this._particle = this.getComponent(DashParticle);
-
         this.currentWalkSpeed = this.defaultWalkSpeed;
     }
 
-    public controlLegs(direction,isDashing, Stamina)
-    {
-        this.walk(direction);
-        this.dash(isDashing, Stamina);
-    }
-
+    
     public walk(direction)
     {
         this._rb.applyForceToCenter( 
@@ -39,10 +28,9 @@ export class Legs extends Component{
     }
         
 
-    public dash(isDashing, Stamina : Stamina)
+    public dash(canDash)
     {
-        this.currentWalkSpeed =  isDashing && Stamina.amount > 0? this.dashSpeed : this.defaultWalkSpeed;
-        this._particle.dashParticle(isDashing && Stamina.amount > 0);  
+        this.currentWalkSpeed =  canDash? this.dashSpeed : this.defaultWalkSpeed;
     }
 }
 

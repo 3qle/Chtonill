@@ -1,61 +1,54 @@
-import { _decorator, Component, Node, RigidBody2D, CCInteger , Vec2, animation, SpriteFrame, Sprite, ParticleSystem2D} from 'cc';
+import { _decorator, Component} from 'cc';
 import { DashParticle } from './DashParticle';
 import { Health } from './Health';
 import { Legs } from './Legs';
 import { Stamina } from './Stamina';
+import { Model } from './Model';
 const { ccclass, property } = _decorator; 
 
 @ccclass('Unit')
 
 export class Unit extends Component {
 
-    private _animator: animation.AnimationController;
-
+    private model: Model;
     private health: Health;
     private legs: Legs;
     private stamina: Stamina;
     private particle: DashParticle;
-
-    @property({type: Sprite})
-    private sprite: Sprite;
-
-    @property({type: [SpriteFrame]})
-    private sprites: SpriteFrame[] = [];
-
-   
+  
     start() {
-        this._animator = this.node.getComponent(animation.AnimationController);
+        this.particle = this.getComponent(DashParticle);
         this.legs = this.getComponent(Legs);
         this.health = this.getComponent(Health);
         this.stamina = this.getComponent(Stamina);
         this.particle = this.getComponent(DashParticle);
-        
-        this.legs.Init();
+        this.model = this.getComponent(Model);
     }
 
-    public ControlUnit(direction, buttons)
+    public ControlOnUpdate(direction, buttons)
     {
-        this.legs.controlLegs(direction, buttons.dash,this.stamina);
-        this.animateUnit(direction);
-        this.changeFaceDirection(direction);
+        this.ControlLegs(direction,buttons);
     }
 
-   
-
-    private animateUnit(direction)
+    public ControlOnKeyPressing(direction)
     {
-        let isWalking = direction.left || direction.right || direction.up || direction.down;
-        this._animator.setValue('isWalking',isWalking);
+        this.ControlAnimation(direction);
     }
 
-    private changeFaceDirection(direction)
-    { 
-         if(direction.left != 0)
-            this.sprite.spriteFrame = this.sprites[0];
-         if(direction.right != 0)
-            this.sprite.spriteFrame = this.sprites[1]; 
-        
-         this.particle.changeParticleDirection(this.sprite.spriteFrame);
+    private ControlLegs(direction, buttons)
+    {
+        let isDashing = buttons.dash && this.stamina.hasStamina();
+        this.legs.walk(direction);
+        this.legs.dash(isDashing);
+        this.particle.dashParticle(isDashing);
     }
+
+    private ControlAnimation(direction)
+    {
+        this.model.animateUnit(direction);
+        this.model.changeFaceDirection(direction)
+        this.particle.changeParticleDirection(this.model.GetSprite());
+    }
+
 }
 
