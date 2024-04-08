@@ -30,17 +30,16 @@ export class Unit extends Component {
         this.ControlLegs(direction,buttons);
     }
 
-    public ControlOnKeyPressing(direction)
+    public ControlOnKeyPressing(direction, buttons)
     {
         this.ControlAnimation(direction);
     }
 
     private ControlLegs(direction, buttons)
     {
-        let isDashing = buttons.dash && this.stamina.hasStamina();
+      
         this.legs.walk(direction);
-        this.legs.dash(isDashing);
-        this.particle.dashParticle(isDashing);
+       
     }
 
     private ControlAnimation(direction)
@@ -48,6 +47,11 @@ export class Unit extends Component {
         this.model.animateUnit(direction);
         this.model.changeFaceDirection(direction)
         this.particle.changeParticleDirection(this.model.GetSprite());
+    }
+
+    public dash(dashPressed)
+    {
+         this.legs.dash(dashPressed, this.stamina, this.particle);  
     }
 
 }

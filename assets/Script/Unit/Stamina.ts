@@ -11,6 +11,11 @@ export class Stamina extends Component {
     {
          return this.amount > 0;
     }
+
+    public spend(a: number)
+    {
+        this.amount -= a;
+    }
 }
 
 

@@ -1,4 +1,6 @@
 import { _decorator, CCInteger, Component, RigidBody2D, Vec2 } from 'cc';
+import { Stamina } from './Stamina';
+import { DashParticle } from './DashParticle';
 const { ccclass, property } = _decorator;
 
 @ccclass('Legs')
@@ -10,6 +12,7 @@ export class Legs extends Component{
     @property({type: CCInteger})
     private dashSpeed: number ;
     @property({type: CCInteger})
+    public dashCost : number;
 
     _rb : RigidBody2D;
   
@@ -28,9 +31,16 @@ export class Legs extends Component{
     }
         
 
-    public dash(canDash)
+    public dash(canDash: boolean, stamina: Stamina, particle: DashParticle)
     {
-        this.currentWalkSpeed =  canDash? this.dashSpeed : this.defaultWalkSpeed;
+        if(canDash && stamina.hasStamina())
+            {
+                this.currentWalkSpeed =  this.dashSpeed;
+                stamina.spend(this.dashCost);
+                particle.dashParticle(true);
+            }
+        else
+           this.currentWalkSpeed = this.defaultWalkSpeed;
     }
 }
 

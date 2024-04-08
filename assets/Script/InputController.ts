@@ -29,6 +29,7 @@ export class InputController extends Component {
 		this.buttons[button] = true;
 		this.scheduleOnce(()=> {this.buttons[button] = false},0.1);
 	}
+
 	
 	onKeyDown(event: EventKeyboard)
 	{
@@ -47,10 +48,11 @@ export class InputController extends Component {
 			this.direction.right = 1;
 			break;
 		case KeyCode.SPACE:
-			this.buttonPress('dash');
+			this.Unit.dash(true);
+			this.scheduleOnce(() => {this.Unit.dash(false)}, 0.1);
 			break;
 		}
-		this.Unit.ControlOnKeyPressing(this.direction);
+		this.Unit.ControlOnKeyPressing(this.direction,this.buttons);
 	}
 
 	
@@ -72,7 +74,7 @@ export class InputController extends Component {
 				this.direction.right = 0;
 				break;      
 		}
-		this.Unit.ControlOnKeyPressing(this.direction);
+		this.Unit.ControlOnKeyPressing(this.direction,this.buttons);
 	}
 
 }

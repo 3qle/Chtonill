@@ -1612,6 +1612,7 @@
     "__prefab": null,
     "defaultWalkSpeed": 1,
     "dashSpeed": 7,
+    "dashCost": 1,
     "_id": "f3ySQPgi5HhZNMX6JMGcs+"
   },
   {
