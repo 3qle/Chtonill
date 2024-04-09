@@ -8,8 +8,7 @@ export class InputController extends Component {
 	private Unit : Unit;
 
 	direction: any =  {up: 0, left:0, right:0, down:0};
-	buttons = {dash : false};
-
+	
 	protected onLoad(): void {
 	input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
 	input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
@@ -21,16 +20,10 @@ export class InputController extends Component {
 	}
 
 	updateController() {
-		this.Unit.ControlOnUpdate(this.direction,this.buttons);
+		this.Unit.ControlOnUpdate(this.direction);
 	}
 
-	buttonPress(button)
-	{
-		this.buttons[button] = true;
-		this.scheduleOnce(()=> {this.buttons[button] = false},0.1);
-	}
 
-	
 	onKeyDown(event: EventKeyboard)
 	{
 		switch(event.keyCode)
@@ -48,15 +41,19 @@ export class InputController extends Component {
 			this.direction.right = 1;
 			break;
 		case KeyCode.SPACE:
-			this.Unit.dash(true);
-			this.scheduleOnce(() => {this.Unit.dash(false)}, 0.1);
+		//	this.Unit.dash(true);
+			//this.scheduleOnce(() => this.Unit.dash(false), 0.1);
+			this.press(this.Unit.dash.bind(this.Unit));
 			break;
 		}
-		this.Unit.ControlOnKeyPressing(this.direction,this.buttons);
+		this.Unit.ControlOnKeyPressing(this.direction);
 	}
 
-	
-
+	press(func: Function ) 
+	{
+		func(true);
+		this.scheduleOnce(() => func(false), 0.1);
+	}
 	onKeyUp (event: EventKeyboard)
 	{
 		switch(event.keyCode)
@@ -74,7 +71,7 @@ export class InputController extends Component {
 				this.direction.right = 0;
 				break;      
 		}
-		this.Unit.ControlOnKeyPressing(this.direction,this.buttons);
+		this.Unit.ControlOnKeyPressing(this.direction);
 	}
 
 }

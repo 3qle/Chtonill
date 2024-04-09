@@ -25,21 +25,19 @@ export class Unit extends Component {
         this.model = this.getComponent(Model);
     }
 
-    public ControlOnUpdate(direction, buttons)
+    public ControlOnUpdate(direction)
     {
-        this.ControlLegs(direction,buttons);
+        this.ControlLegs(direction);
     }
 
-    public ControlOnKeyPressing(direction, buttons)
+    public ControlOnKeyPressing(direction)
     {
         this.ControlAnimation(direction);
     }
 
-    private ControlLegs(direction, buttons)
+    private ControlLegs(direction)
     {
-      
         this.legs.walk(direction);
-       
     }
 
     private ControlAnimation(direction)
@@ -51,7 +49,7 @@ export class Unit extends Component {
 
     public dash(dashPressed)
     {
-         this.legs.dash(dashPressed, this.stamina, this.particle);  
+            this.legs.dash(dashPressed, this.stamina, this.particle);  
     }
 
 }
