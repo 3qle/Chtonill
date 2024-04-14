@@ -3,7 +3,7 @@ import { Unit } from '../Unit';
 const { ccclass, property } = _decorator;
 import ActionType from './ActionType';
 import { Modificator } from './Modificator';
-import { Dash } from './Dash';
+
 @ccclass('Action')
 export  class Action extends Component {
    
@@ -19,9 +19,10 @@ export  class Action extends Component {
         this.mainAction.Modify(unit,buttonPressed);
     }
     
-    constructor(type : ActionType) {
+    constructor(type : ActionType, mod : Modificator) {
         super();
         this.actionType = type;
+        this.mainAction = mod;
     }
 }
 

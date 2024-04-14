@@ -6,6 +6,7 @@ import { Stamina } from './Stamina';
 import { Model } from './Model';
 import { Action } from './Experimental/Action';
 import ActionType from './Experimental/ActionType';
+import { Dash } from './Experimental/Dash';
 
 const { ccclass, property } = _decorator; 
 
@@ -20,7 +21,7 @@ export class Unit extends Component {
     particle: DashParticle;
 
     Actions = {
-        [ActionType.Dash]: new Action (ActionType.Dash)
+        [ActionType.Dash]: new Action (ActionType.Dash, new Dash())
     }
   
     start() {

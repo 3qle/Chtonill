@@ -9,14 +9,10 @@ const { ccclass, property } = _decorator;
 export class Dash extends Modificator{
 
     @property({type: CCInteger})
-    private dashSpeed: number ;
+    private dashSpeed: number  = 5;
     @property({type: CCInteger})
-    public dashCost : number;
+    public dashCost : number = 1;
 
-
-    // protected start(): void {
-    //     this.actionType = ActionType.Dash;
-    // }
 
     public Modify(unit : Unit, canDash : boolean)
     {
@@ -29,6 +25,7 @@ export class Dash extends Modificator{
             }
         else
            unit.legs.setDefaultSpeed();
+    
     }
 }
 
