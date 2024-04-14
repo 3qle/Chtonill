@@ -4,6 +4,9 @@ import { Health } from './Health';
 import { Legs } from './Legs';
 import { Stamina } from './Stamina';
 import { Model } from './Model';
+import { Action } from './Experimental/Action';
+import ActionType from './Experimental/ActionType';
+
 const { ccclass, property } = _decorator; 
 
 @ccclass('Unit')
@@ -12,9 +15,13 @@ export class Unit extends Component {
 
     private model: Model;
     private health: Health;
-    private legs: Legs;
-    private stamina: Stamina;
-    private particle: DashParticle;
+    legs: Legs;
+    stamina: Stamina;
+    particle: DashParticle;
+
+    Actions = {
+        [ActionType.Dash]: new Action (ActionType.Dash)
+    }
   
     start() {
         this.particle = this.getComponent(DashParticle);
@@ -47,10 +54,15 @@ export class Unit extends Component {
         this.particle.changeParticleDirection(this.model.GetSprite());
     }
 
-    public dash(dashPressed)
-    {
-            this.legs.dash(dashPressed, this.stamina, this.particle);  
-    }
 
+    public Action(press: boolean, type: ActionType)
+    {
+        switch (type)
+        {
+            case ActionType.Dash:
+                this.Actions[ActionType.Dash].Use(this,press);
+            break;
+        }
+    }
 }
 

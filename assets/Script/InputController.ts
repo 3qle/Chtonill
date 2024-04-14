@@ -1,7 +1,7 @@
 import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode, Prefab, Script } from 'cc';
 import { Unit } from './Unit/Unit';
+import ActionType from './Unit/Experimental/ActionType';
 const { ccclass, property } = _decorator;
-
 @ccclass('InputController')
 export class InputController extends Component {
 
@@ -41,19 +41,18 @@ export class InputController extends Component {
 			this.direction.right = 1;
 			break;
 		case KeyCode.SPACE:
-		//	this.Unit.dash(true);
-			//this.scheduleOnce(() => this.Unit.dash(false), 0.1);
-			this.press(this.Unit.dash.bind(this.Unit));
+			this.press(ActionType.Dash);
 			break;
 		}
 		this.Unit.ControlOnKeyPressing(this.direction);
 	}
-
-	press(func: Function ) 
+	
+	press(type : ActionType ) 
 	{
-		func(true);
-		this.scheduleOnce(() => func(false), 0.1);
+		this.Unit.Action(true, type);
+		this.scheduleOnce(() => this.Unit.Action(false, type), 0.1);
 	}
+	
 	onKeyUp (event: EventKeyboard)
 	{
 		switch(event.keyCode)
