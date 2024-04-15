@@ -20,7 +20,7 @@ export class Starter extends Component {
     }
 
     update(deltaTime: number) {
-        this.controller.updateController();
+
         this.camera.updateCamera();
     }
 

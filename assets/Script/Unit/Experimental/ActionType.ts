@@ -1,7 +1,7 @@
 const enum ActionType
 {
     Dash,
-    Move
+    Movement
 }
 
 export default ActionType;

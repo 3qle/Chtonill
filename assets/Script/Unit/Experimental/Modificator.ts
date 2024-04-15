@@ -5,7 +5,10 @@ const { ccclass, property } = _decorator;
 @ccclass('Modificator')
 export abstract class Modificator extends Component {
     
-    public abstract Modify(unit : Unit, canDash : boolean);
+    protected unit: Unit;
+    public abstract Modify(unit : Unit, pressed : boolean, additionalProperty);
+
+   
 }
 
 

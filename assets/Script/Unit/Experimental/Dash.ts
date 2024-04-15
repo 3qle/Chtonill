@@ -3,6 +3,7 @@ import { Action } from './Action';
 import { Unit } from '../Unit';
 import ActionType from './ActionType';
 import { Modificator } from './Modificator';
+import { Movement } from './Movement';
 const { ccclass, property } = _decorator;
 
 @ccclass('Dash')
@@ -16,10 +17,9 @@ export class Dash extends Modificator{
 
     public Modify(unit : Unit, canDash : boolean)
     {
-
         if(canDash && unit.stamina.hasStamina())
             {
-                unit.legs.setSpeed(this.dashSpeed);
+                movemnet.setSpeed(this.dashSpeed);
                 unit.stamina.spend(this.dashCost);
                 unit.particle.dashParticle(true);
             }
