@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Camera, Vec2, Vec3 } from 'cc';
-import { Unit } from './Unit/Unit';
+import { Unit } from '../Unit/Unit';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('Cam')

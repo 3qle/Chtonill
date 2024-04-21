@@ -1,13 +1,14 @@
-import { _decorator, Component, RigidBody2D} from 'cc';
+import { _decorator, Component, KeyCode, RigidBody2D} from 'cc';
 import { DashParticle } from './DashParticle';
-import { Health } from './Health';
-import { Stamina } from './Stamina';
-import { Model } from './Model';
-import { Action } from './Experimental/Action';
-import ActionType from './Experimental/ActionType';
-import { Dash } from './Experimental/Dash';
-import { Movement } from './Experimental/Movement';
-import DirectionType from './Experimental/DirectionType';
+import ActionType from '../Enum/ActionType';
+import { Action } from './Basic/Action';
+import { Dash } from './Mods/Dash';
+import { Movement } from './Mods/Movement';
+import { Model } from './Basic/Model';
+import DirectionType from '../Enum/DirectionType';
+import { StatsManager } from './Basic/StatsManager';
+import { InitialValues } from './Basic/InitialValues';
+
 
 const { ccclass, property } = _decorator; 
 
@@ -15,9 +16,10 @@ const { ccclass, property } = _decorator;
 
 export class Unit extends Component {
 
+    public initValues : InitialValues;
+    public stats : StatsManager;
     private model: Model;
-    private health: Health;
-    stamina: Stamina;
+
     particle: DashParticle;
     rb : RigidBody2D;
     isLookingLeft: boolean;
@@ -31,10 +33,10 @@ export class Unit extends Component {
 
         this.rb = this.getComponent(RigidBody2D);
         this.particle = this.getComponent(DashParticle);
-        this.health = this.getComponent(Health);
-        this.stamina = this.getComponent(Stamina);
         this.particle = this.getComponent(DashParticle);
         this.model = this.getComponent(Model);
+        this.initValues = this.getComponent(InitialValues);
+        this.stats = new StatsManager(this.initValues);
     }
 
     public ControlAnimation(direction)
@@ -47,10 +49,15 @@ export class Unit extends Component {
     }
 
 
-    public ActionOnPress(press: boolean, type: ActionType, additionalProperty)
+    public actionOnPress(press: boolean, action : any)
     {
-        this.Actions[type].Do(this,press, additionalProperty);
+        this.Actions[action.type].Do(this,press, action);
     }
+
+    public isActionHoldable = (type : ActionType): boolean =>  this.Actions[type].holdable;
+
+    public getActionDuration = (type : ActionType) : number => this.Actions[type].actionDuration;
+    
 
 }
 

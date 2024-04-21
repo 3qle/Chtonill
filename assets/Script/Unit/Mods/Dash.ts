@@ -1,9 +1,8 @@
 import { _decorator, CCInteger, Component, Node } from 'cc';
-import { Action } from './Action';
 import { Unit } from '../Unit';
-import ActionType from './ActionType';
-import { Modificator } from './Modificator';
-import { Movement } from './Movement';
+import { Modificator } from '../Basic/Modificator';
+
+
 const { ccclass, property } = _decorator;
 
 @ccclass('Dash')
@@ -11,21 +10,26 @@ export class Dash extends Modificator{
 
     @property({type: CCInteger})
     private dashSpeed: number  = 5;
+
     @property({type: CCInteger})
     public dashCost : number = 1;
 
+    public holdable: boolean = false;
+
+    public actionDuration: number = 0.1;
+    
 
     public Modify(unit : Unit, canDash : boolean)
     {
-        if(canDash && unit.stamina.hasStamina())
+        if(canDash &&  unit.stats.Stamina.hasStamina())
             {
-                movemnet.setSpeed(this.dashSpeed);
-                unit.stamina.spend(this.dashCost);
+                unit.stats.Flow.addExtraAmount(this.dashSpeed);
+                unit.stats.Stamina.spend(this.dashCost);
                 unit.particle.dashParticle(true);
             }
         else
-           unit.legs.setDefaultSpeed();
-    
+            unit.stats.Flow.resetToCurrent();
+
     }
 }
 
