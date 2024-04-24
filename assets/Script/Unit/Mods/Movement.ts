@@ -1,8 +1,7 @@
 import { _decorator, Vec2 } from 'cc';
-
-import { Unit } from '../Unit';
 import DirectionType from '../../Enum/DirectionType';
 import { Modificator } from '../Basic/Modificator';
+import StatType from '../../Enum/StatType';
 
 const { ccclass, property } = _decorator;
 
@@ -10,36 +9,28 @@ const { ccclass, property } = _decorator;
 export class Movement extends Modificator {
 
     private walkSpeed: number;
-    public holdable = true;
-    direction: any =  {horizontal: 0, vertical : 0, none : 0, positiveStep: 1, negativeStep: -1};
+    private step : any = {none : 0, positive: 1, negative: -1};
+    private vector : Vec2;
 
-    step : any = {none : 0, positive: 1, negative: -1};
-
-    vector : Vec2;
-
-    public Modify(unit : Unit, moving : boolean, action)
+    public Modify( moving : boolean, action)
     {
-        this.walkSpeed = unit.stats.Flow.currentAmount;
-        this.setDirection(action.direction);
-        unit.ControlAnimation(this.direction); 
-        this.move(unit);
-       
+        if(moving)
+            {
+                this.walkSpeed = this.unit.Stat(StatType.Flow).currentAmount;
+                this.setDirection(action.direction);
+               
+                this.move();
+            }
     }
 
-    setVelocity(x,y) 
-    {
-       this.vector = new Vec2(x * this.walkSpeed,y * this.walkSpeed);
-       
-    }
+    private setVelocity = (x,y) =>
+         this.vector = new Vec2(x * this.walkSpeed,y * this.walkSpeed);
+    
+    private move = () =>
+         this.unit.rb.applyForceToCenter(this.vector , true );
+    
 
-    move(unit : Unit)
-    {
-        unit.rb.applyForceToCenter(this.vector , true );
-    }
-   
-
-    setDirection(direction)
-    {
+    private setDirection(direction){
         if(direction == DirectionType.Up)  
             this.setVelocity(this.step.none,this.step.positive);
         if(direction == DirectionType.Down) 
@@ -47,12 +38,8 @@ export class Movement extends Modificator {
         if(direction == DirectionType.Left)
             this.setVelocity(this.step.negative,this.step.none);
         if(direction == DirectionType.Right) 
-            this.setVelocity(this.step.positive,this.step.none);
-       
-
-     
+            this.setVelocity(this.step.positive,this.step.none);     
     }
-
 }
 
 

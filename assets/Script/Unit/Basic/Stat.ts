@@ -26,7 +26,8 @@ export abstract class Stat extends Component {
         this.currentAmount = this.defaultAmount;
     }
 
-   
+   public abstract isOverZero(): boolean;
+   public abstract Spend(amount : number);
 
 
 }

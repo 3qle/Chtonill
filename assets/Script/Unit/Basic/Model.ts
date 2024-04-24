@@ -1,4 +1,5 @@
 import { _decorator, animation, Component, Node, Sprite, SpriteFrame } from 'cc';
+import DirectionType from '../../Enum/DirectionType';
 const { ccclass, property } = _decorator;
 
 @ccclass('Model')
@@ -22,30 +23,26 @@ export class Model extends Component {
         this._animator = this.node.getComponent(animation.AnimationController);
     }
 
-    public animateUnit(direction)
+    public animateUnit(moving)
     {
-        let isWalking = direction.horizontal || direction.vertical;
-        this._animator.setValue('isWalking',isWalking);
+        this._animator.setValue('isWalking',moving);
     }
 
-    public changeFaceDirection(direction)
+    public changeFaceDirection(velocity)
     { 
-        if(direction.horizontal == direction.negativeStep)
-            {
-                this.sprite.spriteFrame = this.sprites[0];
-                this.outline.spriteFrame = this.outlines[0];
-            }
+        if(velocity < 0) {
+            this.sprite.spriteFrame = this.sprites[0];
+            this.outline.spriteFrame = this.outlines[0];
+        }
           
-        if(direction.horizontal == direction.positiveStep)
-            {
-                this.sprite.spriteFrame = this.sprites[1];
-                this.outline.spriteFrame = this.outlines[1]; 
-            }
+        if(velocity > 0){
+            this.sprite.spriteFrame = this.sprites[1];
+            this.outline.spriteFrame = this.outlines[1]; 
+        }
     }
 
     public noStamina(hasStamina: boolean)
     {
-        console.log(hasStamina);
         this._animator.setValue('noStamina',!hasStamina);
     }
 

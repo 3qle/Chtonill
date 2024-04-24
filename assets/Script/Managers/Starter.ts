@@ -28,7 +28,7 @@ export class Starter extends Component {
     public setUnit(unit : Unit)
     {
         this.camera.SetUnit(unit);
-        this.controller.SetUnit(unit);
+        this.controller.Init(unit);
     }
 }
 

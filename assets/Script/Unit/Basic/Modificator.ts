@@ -6,11 +6,16 @@ const { ccclass, property } = _decorator;
 export abstract class Modificator extends Component {
     
     protected unit: Unit;
-    public holdable : boolean;
-    public actionDuration: number;
-    public abstract Modify(unit : Unit, pressed : boolean, additionalProperty);
+    public duration: number;
+    protected readyToUse :boolean = false;
+    
+    public abstract Modify(pressed : boolean, additionalProperty);
 
-   
+    constructor(unit : Unit){
+        super();
+        this.unit = unit;
+    }
+
 }
 
 

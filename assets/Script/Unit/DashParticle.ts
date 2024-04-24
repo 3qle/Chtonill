@@ -13,18 +13,20 @@ export class DashParticle extends Component {
     particleLifeTime: number = 0.5;
 
 
-    public dashParticle(isDashing:Boolean)
+    public dashParticle()
     {
-        if(isDashing)
-            {
-                this.particle.emissionRate = this.activeEmission;
-                this.scheduleOnce( () => this.particle.emissionRate = this.stoppedEmission,this.particleLifeTime);
-            }
+        this.setEmission(this.activeEmission);
+        this.scheduleOnce(() => this.setEmission(this.stoppedEmission),this.particleLifeTime);
     }   
 
     public changeParticleDirection(spriteFrame : SpriteFrame)
     {
         this.particle.spriteFrame = spriteFrame;
+    }
+
+    private setEmission(emission : number)
+    {
+        this.particle.emissionRate = emission;
     }
 }
 

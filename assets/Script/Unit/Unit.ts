@@ -1,13 +1,14 @@
-import { _decorator, Component, KeyCode, RigidBody2D} from 'cc';
+import { _decorator, Component, RigidBody2D} from 'cc';
 import { DashParticle } from './DashParticle';
 import ActionType from '../Enum/ActionType';
 import { Action } from './Basic/Action';
 import { Dash } from './Mods/Dash';
 import { Movement } from './Mods/Movement';
 import { Model } from './Basic/Model';
-import DirectionType from '../Enum/DirectionType';
 import { StatsManager } from './Basic/StatsManager';
 import { InitialValues } from './Basic/InitialValues';
+import StatType from '../Enum/StatType';
+import { Stat } from './Basic/Stat';
 
 
 const { ccclass, property } = _decorator; 
@@ -17,16 +18,16 @@ const { ccclass, property } = _decorator;
 export class Unit extends Component {
 
     public initValues : InitialValues;
-    public stats : StatsManager;
-    private model: Model;
+    private stats : StatsManager;
+    public model: Model;
 
     particle: DashParticle;
     rb : RigidBody2D;
     isLookingLeft: boolean;
 
     Actions = {
-        [ActionType.Dash]: new Action (ActionType.Dash, new Dash()),
-        [ActionType.Movement]: new Action (ActionType.Movement, new Movement())
+        [ActionType.Dash]: new Action (this,ActionType.Dash, new Dash(this)),
+        [ActionType.Movement]: new Action (this,ActionType.Movement, new Movement(this))
     }
   
     onLoad() {
@@ -36,28 +37,25 @@ export class Unit extends Component {
         this.particle = this.getComponent(DashParticle);
         this.model = this.getComponent(Model);
         this.initValues = this.getComponent(InitialValues);
-        this.stats = new StatsManager(this.initValues);
+        this.stats = new StatsManager(this.initValues, this);
     }
 
-    public ControlAnimation(direction)
+    public ControlAnimation(movig : boolean)
     {
-        if(direction != null && (direction == DirectionType.Left || direction == DirectionType.Right)) 
-            this.isLookingLeft = direction == DirectionType.Left? true:false;
-        this.model.animateUnit(direction);
-        this.model.changeFaceDirection(direction)
+        this.model.animateUnit(movig);
+        this.model.changeFaceDirection(this.rb.linearVelocity.x)
         this.particle.changeParticleDirection(this.model.GetSprite());
     }
 
 
-    public actionOnPress(press: boolean, action : any)
+    public StartAction(press: boolean, action : any)
     {
-        this.Actions[action.type].Do(this,press, action);
+        this.ControlAnimation(action.type == ActionType.Movement); 
+        this.Actions[action.type].StartAction(press, action);
     }
 
-    public isActionHoldable = (type : ActionType): boolean =>  this.Actions[type].holdable;
-
-    public getActionDuration = (type : ActionType) : number => this.Actions[type].actionDuration;
-    
-
+    public Stat = (type : StatType) : Stat => this.stats.Stats[type];
+   
+   
 }
 

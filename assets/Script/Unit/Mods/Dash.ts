@@ -1,6 +1,6 @@
 import { _decorator, CCInteger, Component, Node } from 'cc';
-import { Unit } from '../Unit';
 import { Modificator } from '../Basic/Modificator';
+import StatType from '../../Enum/StatType';
 
 
 const { ccclass, property } = _decorator;
@@ -13,23 +13,27 @@ export class Dash extends Modificator{
 
     @property({type: CCInteger})
     public dashCost : number = 1;
-
-    public holdable: boolean = false;
-
-    public actionDuration: number = 0.1;
     
+    public duration: number = 0.1;
+    dashDone :boolean = false;
 
-    public Modify(unit : Unit, canDash : boolean)
+    public Modify(canDash : boolean)
     {
-        if(canDash &&  unit.stats.Stamina.hasStamina())
-            {
-                unit.stats.Flow.addExtraAmount(this.dashSpeed);
-                unit.stats.Stamina.spend(this.dashCost);
-                unit.particle.dashParticle(true);
+        if(canDash && this.readyToUse && this.unit.Stat(StatType.Stamina).isOverZero()){
+                this.unit.Stat(StatType.Flow).addExtraAmount(this.dashSpeed);
+                this.unit.Stat(StatType.Stamina).Spend(this.dashCost);
+                this.unit.particle.dashParticle();
+                this.readyToUse = false;
+                this.scheduleOnce(this.unmodify, this.duration);
             }
-        else
-            unit.stats.Flow.resetToCurrent();
 
+        if(!canDash)
+            this.readyToUse = true;;
+    }
+
+    private unmodify()
+    {
+        this.unit.Stat(StatType.Flow).resetToCurrent();
     }
 }
 

@@ -8,63 +8,29 @@ const { ccclass, property } = _decorator;
 export class KeyboardInput extends Component {
 
 	private unit : Unit;
-	private holdingButtons = [];
 
 	private buttons = {
-		[KeyCode.SPACE] : {type :[ActionType.Dash]},
-		[KeyCode.KEY_W] : {type :[ActionType.Movement], direction : [DirectionType.Up]},
-		[KeyCode.KEY_S] : {type :[ActionType.Movement], direction : [DirectionType.Down]},
-		[KeyCode.KEY_A] : {type :[ActionType.Movement], direction : [DirectionType.Left]},
-		[KeyCode.KEY_D] : {type :[ActionType.Movement], direction : [DirectionType.Right]},
+		[KeyCode.SPACE] : {isPressed : false, type :[ActionType.Dash]},
+		[KeyCode.KEY_W] : {isPressed : false, type :[ActionType.Movement], direction : [DirectionType.Up]},
+		[KeyCode.KEY_S] : {isPressed : false, type :[ActionType.Movement], direction : [DirectionType.Down]},
+		[KeyCode.KEY_A] : {isPressed : false, type :[ActionType.Movement], direction : [DirectionType.Left]},
+		[KeyCode.KEY_D] : {isPressed : false, type :[ActionType.Movement], direction : [DirectionType.Right]},
 	};
 
-	protected onLoad() {
-		input.on(Input.EventType.KEY_DOWN, this.onKeyDown,this);
+	public Init(unit : Unit) {
+		this.unit = unit;	
+		input.on(Input.EventType.KEY_DOWN, this.onKey,this);
 		input.on(Input.EventType.KEY_UP, this.onKeyUp,this);
 	}
 
-	public SetUnit = (unit: Unit) => 
-		this.unit = unit;	
-
-	public UpdateHoldingButtons = () => 
-		this.holdingButtons.forEach(action => {this.doUnitAction(true,action)});
-
-
-	private onKeyDown = (event: EventKeyboard) => 
-		this.buttonPress(this.buttons[event.keyCode]);
-
-
-	private onKeyUp = (event: EventKeyboard) => 
-		this.buttonRelease(this.buttons[event.keyCode]);
-
-
-	private buttonIsHolding = (action : any) : boolean => 
-		this.holdingButtons.indexOf(action) == -1? false: true;
-
-
-    private doUnitAction = (doAction : boolean , action : any) => 
-		this.unit.actionOnPress(doAction, action);
-
-
-	private buttonPress(action : any) {
-		if(this.unit.isActionHoldable(action.type))	{
-			if(!this.buttonIsHolding(action))
-				this.holdingButtons.push(action);
-		}
-		else {
-			this.doUnitAction(true, action);
-			this.scheduleOnce(() => this.doUnitAction(false, action), this.unit.getActionDuration(action.type));
-		}
+	public UpdateHoldingButtons()
+	{
+		Object.keys(this.buttons).forEach(key => {
+			this.unit.StartAction(this.buttons[key].isPressed, this.buttons[key]);})
 	} 
-	
 
-	private buttonRelease (action : any) {
-		if(this.unit.isActionHoldable(action.type) && this.buttonIsHolding(action))
-			this.holdingButtons.splice(this.holdingButtons.indexOf(action),1);
-	}
-
-	
-	
-	
-	
+	private onKey = (button: EventKeyboard) => 
+		this.buttons[button.keyCode].isPressed = true;
+	private onKeyUp = (button: EventKeyboard) => 
+		this.buttons[button.keyCode].isPressed = false;
 }
