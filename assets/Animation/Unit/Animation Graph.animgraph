@@ -534,7 +534,7 @@
     "endEventBinding": {
       "__id__": 44
     },
-    "duration": 0.3,
+    "duration": 0,
     "relativeDuration": false,
     "exitConditionEnabled": true,
     "_exitCondition": 0

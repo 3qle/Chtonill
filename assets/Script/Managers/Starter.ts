@@ -23,6 +23,7 @@ export class Starter extends Component {
     update(deltaTime: number) {
         this.controller.UpdateHoldingButtons();
         this.camera.updateCamera();
+        this.Unit.ControlAnimation();
     }
 
     public setUnit(unit : Unit)

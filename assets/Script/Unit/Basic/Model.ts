@@ -1,4 +1,4 @@
-import { _decorator, animation, Component, Node, Sprite, SpriteFrame } from 'cc';
+import { _decorator, animation, Component, Node, Sprite, SpriteFrame, Vec2 } from 'cc';
 import DirectionType from '../../Enum/DirectionType';
 const { ccclass, property } = _decorator;
 
@@ -23,8 +23,10 @@ export class Model extends Component {
         this._animator = this.node.getComponent(animation.AnimationController);
     }
 
-    public animateUnit(moving)
+    public animateUnit(velocity : Vec2)
     {
+        let treshold = 0.6;
+        let moving = velocity.x > treshold || velocity.x < -treshold || velocity.y > treshold || velocity.y < -treshold ;
         this._animator.setValue('isWalking',moving);
     }
 

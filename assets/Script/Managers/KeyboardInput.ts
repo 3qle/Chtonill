@@ -26,7 +26,7 @@ export class KeyboardInput extends Component {
 	public UpdateHoldingButtons()
 	{
 		Object.keys(this.buttons).forEach(key => {
-			this.unit.StartAction(this.buttons[key].isPressed, this.buttons[key]);})
+			this.unit.Action(this.buttons[key].isPressed, this.buttons[key]);})
 	} 
 
 	private onKey = (button: EventKeyboard) => 

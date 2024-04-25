@@ -1,4 +1,4 @@
-import { _decorator, Component, RigidBody2D} from 'cc';
+import { _decorator, Component, math, RigidBody2D} from 'cc';
 import { DashParticle } from './DashParticle';
 import ActionType from '../Enum/ActionType';
 import { Action } from './Basic/Action';
@@ -40,17 +40,17 @@ export class Unit extends Component {
         this.stats = new StatsManager(this.initValues, this);
     }
 
-    public ControlAnimation(movig : boolean)
+    public ControlAnimation()
     {
-        this.model.animateUnit(movig);
+        this.model.animateUnit(this.rb.linearVelocity);
         this.model.changeFaceDirection(this.rb.linearVelocity.x)
         this.particle.changeParticleDirection(this.model.GetSprite());
     }
 
 
-    public StartAction(press: boolean, action : any)
+    public Action(press: boolean, action : any)
     {
-        this.ControlAnimation(action.type == ActionType.Movement); 
+       
         this.Actions[action.type].StartAction(press, action);
     }
 
